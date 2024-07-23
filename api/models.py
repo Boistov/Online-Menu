@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -34,3 +35,28 @@ class Order(models.Model):
 
     def __str__(self):
         return f'Order by {self.user}'
+
+
+
+class Feedback(models.Model):
+    message = models.TextField()
+
+    def __str__(self):
+        return self.message[:50]
+    
+
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} of {self.dish.name} by {self.user.username}"
+    
+
+
+
+
+
+
+
