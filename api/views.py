@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from .models import Category, Dish, Review, Order, Feedback, CartItem
 from .serializers import CategorySerializer, DishSerializer, ReviewSerializer, OrderSerializer, FeedbackSerializer, CartItemSerializer
 
-# Category Views
 class CategoryCreateAPIView(generics.CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -34,7 +33,7 @@ class CategoryDeleteAPIView(generics.DestroyAPIView):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated]
 
-# Dish Views
+
 class DishCreateAPIView(generics.CreateAPIView):
     queryset = Dish.objects.all()
     serializer_class = DishSerializer
@@ -55,7 +54,7 @@ class DishListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['id', 'name', 'category', 'price']
     search_fields = ['id', 'name', 'category__name']
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Dish.objects.all()
@@ -75,7 +74,7 @@ class DishDeleteAPIView(generics.DestroyAPIView):
     serializer_class = DishSerializer
     permission_classes = [IsAuthenticated]
 
-# Order Views
+
 class OrderCreateAPIView(generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -96,7 +95,7 @@ class OrderListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['id', 'user', 'total_price']
     search_fields = ['id', 'user__username', 'total_price']
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Order.objects.all()
@@ -116,7 +115,7 @@ class OrderDeleteAPIView(generics.DestroyAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
-# Feedback Views
+
 class FeedbackCreateAPIView(generics.CreateAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
@@ -145,44 +144,6 @@ class FeedbackDeleteAPIView(generics.DestroyAPIView):
     serializer_class = FeedbackSerializer
     permission_classes = [IsAuthenticated]
 
-# CartItem Views
-class CartItemCreateAPIView(generics.CreateAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
-    permission_classes = [IsAuthenticated]
-
-class CartItemListAPIView(generics.ListAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
-    permission_classes = [IsAuthenticated]
-
-class CartItemDeleteAPIView(generics.DestroyAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
-    permission_classes = [IsAuthenticated]
-
-# CartOrder Views
-class CartOrderCreateAPIView(generics.CreateAPIView):
-    serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
-
-    def create(self, request, *args, **kwargs):
-        cart_items = CartItem.objects.filter(user=request.user)
-        if not cart_items.exists():
-            return Response({'error': 'Cart is empty'}, status=400)
-
-        order_data = {
-            'user': request.user.id,
-            'total_price': sum(item.dish.price * item.quantity for item in cart_items),
-            'items': [{'dish': item.dish.id, 'quantity': item.quantity} for item in cart_items]
-        }
-        serializer = self.get_serializer(data=order_data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        CartItem.objects.filter(user=request.user).delete()
-        return Response(serializer.data, status=201)
-
-# Review Views
 class ReviewCreateAPIView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -210,3 +171,25 @@ class ReviewDeleteAPIView(generics.DestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
+
+
+class CartOrderCreateAPIView(generics.CreateAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        cart_items = CartItem.objects.filter(user=request.user)
+        if not cart_items.exists():
+            return Response({'error': 'Cart is empty'}, status=400)
+
+        order_data = {
+            'user': request.user.id,
+            'total_price': sum(item.dish.price * item.quantity for item in cart_items),
+            'items': [{'dish': item.dish.id, 'quantity': item.quantity} for item in cart_items]
+        }
+        serializer = self.get_serializer(data=order_data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        CartItem.objects.filter(user=request.user).delete()
+        return Response(serializer.data, status=201)
+
