@@ -44,7 +44,6 @@ class Feedback(models.Model):
     def __str__(self):
         return self.message[:50]
     
-
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
