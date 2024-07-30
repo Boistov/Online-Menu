@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import (
+from .views import (TokenObtainPairView, TokenRefreshView,
     CategoryCreateAPIView,CategoryDetailAPIView,CategoryUpdateAPIView,CategoryListAPIView,CategoryDeleteAPIView,
     DishCreateAPIView,DishDetailAPIView,DishUpdateAPIView,DishListCreateAPIView,DishDeleteAPIView,ReviewCreateAPIView,
     ReviewDetailAPIView,ReviewUpdateAPIView,ReviewListAPIView,ReviewDeleteAPIView,OrderCreateAPIView,OrderDetailAPIView,
     OrderUpdateAPIView,OrderListCreateAPIView,OrderDeleteAPIView,FeedbackCreateAPIView,FeedbackListAPIView,FeedbackDetailAPIView,
-    FeedbackUpdateAPIView,FeedbackDeleteAPIView,CartItemCreateAPIView,CartItemListAPIView,CartItemDeleteAPIView,CartOrderCreateAPIView,
+    FeedbackUpdateAPIView,FeedbackDeleteAPIView,CartOrderCreateAPIView,
 )
 
 urlpatterns = [
