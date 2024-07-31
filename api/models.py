@@ -52,10 +52,3 @@ class CartItem(models.Model):
     def __str__(self):
         return f"{self.quantity} of {self.dish.name} by {self.user.username}"
     
-
-
-
-
-
-
-

@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import (TokenObtainPairView, TokenRefreshView,
-    CategoryCreateAPIView,CategoryDetailAPIView,CategoryUpdateAPIView,CategoryListAPIView,CategoryDeleteAPIView,
-    DishCreateAPIView,DishDetailAPIView,DishUpdateAPIView,DishListCreateAPIView,DishDeleteAPIView,ReviewCreateAPIView,
-    ReviewDetailAPIView,ReviewUpdateAPIView,ReviewListAPIView,ReviewDeleteAPIView,OrderCreateAPIView,OrderDetailAPIView,
-    OrderUpdateAPIView,OrderListCreateAPIView,OrderDeleteAPIView,FeedbackCreateAPIView,FeedbackListAPIView,FeedbackDetailAPIView,
-    FeedbackUpdateAPIView,FeedbackDeleteAPIView,CartOrderCreateAPIView,
+from .views import (
+    CategoryCreateAPIView, CategoryDetailAPIView, CategoryUpdateAPIView, CategoryListAPIView, CategoryDeleteAPIView,
+    DishCreateAPIView, DishDetailAPIView, DishUpdateAPIView, DishListCreateAPIView, DishDeleteAPIView, ReviewCreateAPIView,
+    ReviewDetailAPIView, ReviewUpdateAPIView, ReviewListAPIView, ReviewDeleteAPIView, OrderCreateAPIView, OrderDetailAPIView,
+    OrderUpdateAPIView, OrderListCreateAPIView, OrderDeleteAPIView, FeedbackCreateAPIView, FeedbackListAPIView, FeedbackDetailAPIView,
+    FeedbackUpdateAPIView, FeedbackDeleteAPIView,CartOrderCreateAPIView
 )
 
 urlpatterns = [
@@ -26,6 +26,9 @@ urlpatterns = [
     path('reviews/', ReviewListAPIView.as_view(), name='review-list'),
     path('reviews/<int:pk>/delete/', ReviewDeleteAPIView.as_view(), name='review-delete'),
     
+
+
+
     path('orders/create/', OrderCreateAPIView.as_view(), name='order-create'),
     path('orders/<int:pk>/', OrderDetailAPIView.as_view(), name='order-detail'),
     path('orders/<int:pk>/update/', OrderUpdateAPIView.as_view(), name='order-update'),
@@ -37,12 +40,6 @@ urlpatterns = [
     path('feedbacks/<int:pk>/', FeedbackDetailAPIView.as_view(), name='feedback-detail'),
     path('feedbacks/<int:pk>/update/', FeedbackUpdateAPIView.as_view(), name='feedback-update'),
     path('feedbacks/<int:pk>/delete/', FeedbackDeleteAPIView.as_view(), name='feedback-delete'),
-    
-    path('cartitems/create/', CartItemCreateAPIView.as_view(), name='cartitem-create'),
-    path('cartitems/', CartItemListAPIView.as_view(), name='cartitem-list'),
-    path('cartitems/<int:pk>/delete/', CartItemDeleteAPIView.as_view(), name='cartitem-delete'),
-    
+
     path('cartorder/create/', CartOrderCreateAPIView.as_view(), name='cartorder-create'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

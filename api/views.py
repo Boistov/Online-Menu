@@ -1,9 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, permissions
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
-from .models import Category, Dish, Review, Order, Feedback, CartItem
+from rest_framework import status, generics
+from django.contrib.auth import get_user_model
+from .models import Category, Dish, Review, Order, Feedback
 from .serializers import CategorySerializer, DishSerializer, ReviewSerializer, OrderSerializer, FeedbackSerializer, CartItemSerializer
 
 class CategoryCreateAPIView(generics.CreateAPIView):
@@ -174,23 +176,7 @@ class ReviewDeleteAPIView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
+
 class CartOrderCreateAPIView(generics.CreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
-
-    def create(self, request, *args, **kwargs):
-        cart_items = CartItem.objects.filter(user=request.user)
-        if not cart_items.exists():
-            return Response({'error': 'Cart is empty'}, status=400)
-
-        order_data = {
-            'user': request.user.id,
-            'total_price': sum(item.dish.price * item.quantity for item in cart_items),
-            'items': [{'dish': item.dish.id, 'quantity': item.quantity} for item in cart_items]
-        }
-        serializer = self.get_serializer(data=order_data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        CartItem.objects.filter(user=request.user).delete()
-        return Response(serializer.data, status=201)
-
