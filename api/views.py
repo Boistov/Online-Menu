@@ -1,12 +1,10 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, permissions
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.response import Response
 from rest_framework import status, generics
 from django.contrib.auth import get_user_model
-from .models import Category, Dish, Review, Order, Feedback
-from .serializers import CategorySerializer, DishSerializer, ReviewSerializer, OrderSerializer, FeedbackSerializer, CartItemSerializer
+from .models import *
+from .serializers import *
 
 class CategoryCreateAPIView(generics.CreateAPIView):
     queryset = Category.objects.all()
