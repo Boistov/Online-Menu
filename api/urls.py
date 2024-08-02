@@ -1,17 +1,11 @@
 from django.urls import path
-from .views import (
-    CategoryCreateAPIView, CategoryDetailAPIView, CategoryUpdateAPIView, CategoryListAPIView, CategoryDeleteAPIView,
-    DishCreateAPIView, DishDetailAPIView, DishUpdateAPIView, DishListCreateAPIView, DishDeleteAPIView, ReviewCreateAPIView,
-    ReviewDetailAPIView, ReviewUpdateAPIView, ReviewListAPIView, ReviewDeleteAPIView, OrderCreateAPIView, OrderDetailAPIView,
-    OrderUpdateAPIView, OrderListCreateAPIView, OrderDeleteAPIView, FeedbackCreateAPIView, FeedbackListAPIView, FeedbackDetailAPIView,
-    FeedbackUpdateAPIView, FeedbackDeleteAPIView,CartOrderCreateAPIView
-)
+from .views import *
 
 urlpatterns = [
+    path('categories/', CategoryListAPIView.as_view(), name='category-list'),
     path('categories/create/', CategoryCreateAPIView.as_view(), name='category-create'),
     path('categories/<int:pk>/', CategoryDetailAPIView.as_view(), name='category-detail'),
     path('categories/<int:pk>/update/', CategoryUpdateAPIView.as_view(), name='category-update'),
-    path('categories/', CategoryListAPIView.as_view(), name='category-list'),
     path('categories/<int:pk>/delete/', CategoryDeleteAPIView.as_view(), name='category-delete'),
     
     path('dishes/create/', DishCreateAPIView.as_view(), name='dish-create'),
@@ -26,9 +20,6 @@ urlpatterns = [
     path('reviews/', ReviewListAPIView.as_view(), name='review-list'),
     path('reviews/<int:pk>/delete/', ReviewDeleteAPIView.as_view(), name='review-delete'),
     
-
-
-
     path('orders/create/', OrderCreateAPIView.as_view(), name='order-create'),
     path('orders/<int:pk>/', OrderDetailAPIView.as_view(), name='order-detail'),
     path('orders/<int:pk>/update/', OrderUpdateAPIView.as_view(), name='order-update'),

@@ -1,10 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, permissions
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status, generics
-from django.contrib.auth import get_user_model
+from rest_framework import  generics
 from .models import *
 from .serializers import *
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 class CategoryCreateAPIView(generics.CreateAPIView):
     queryset = Category.objects.all()
@@ -150,6 +152,9 @@ class ReviewCreateAPIView(generics.CreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user) 
+
 class ReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -178,3 +183,11 @@ class ReviewDeleteAPIView(generics.DestroyAPIView):
 class CartOrderCreateAPIView(generics.CreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+
+
+
+class YourProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"message": "Authenticated!"})

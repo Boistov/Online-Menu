@@ -16,7 +16,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = ['id', 'user', 'dish', 'rating', 'comment', 'created_at']
+        fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
@@ -44,7 +44,3 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ['id', 'user', 'dish', 'quantity', 'created_at']
-
-
-
-
