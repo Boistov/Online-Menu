@@ -4,12 +4,12 @@ from .models import Category, Dish, Review, Order, Feedback, CartItem
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name']
+        fields = '__all__'
 
 class DishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish
-        fields = ['id', 'name', 'description', 'price', 'category', 'image']
+        fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
@@ -24,7 +24,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'user', 'total_price', 'items', 'created_at']
+        fields = '__all__'
 
     def get_items(self, obj):
         items = CartItem.objects.filter(order=obj)
@@ -35,7 +35,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Feedback
-        fields = ['id', 'user', 'message', 'created_at']
+        fields = '__all__'
 
 class CartItemSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
@@ -43,4 +43,4 @@ class CartItemSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CartItem
-        fields = ['id', 'user', 'dish', 'quantity', 'created_at']
+        fields = '__all__'

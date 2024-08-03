@@ -184,7 +184,14 @@ class CartOrderCreateAPIView(generics.CreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
+class CartOrderRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    lookup_field = 'pk'
 
+class CartOrderListAPIView(generics.ListAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
 
 class YourProtectedView(APIView):
     permission_classes = [IsAuthenticated]

@@ -45,6 +45,7 @@ class Feedback(models.Model):
         return self.message[:50]
     
 class CartItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='cart_items')  # Add this field
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)

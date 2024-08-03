@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 from .views import *
 
 urlpatterns = [
@@ -8,6 +9,7 @@ urlpatterns = [
     path('categories/<int:pk>/update/', CategoryUpdateAPIView.as_view(), name='category-update'),
     path('categories/<int:pk>/delete/', CategoryDeleteAPIView.as_view(), name='category-delete'),
     
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('dishes/create/', DishCreateAPIView.as_view(), name='dish-create'),
     path('dishes/<int:pk>/', DishDetailAPIView.as_view(), name='dish-detail'),
     path('dishes/<int:pk>/update/', DishUpdateAPIView.as_view(), name='dish-update'),
@@ -31,6 +33,9 @@ urlpatterns = [
     path('feedbacks/<int:pk>/', FeedbackDetailAPIView.as_view(), name='feedback-detail'),
     path('feedbacks/<int:pk>/update/', FeedbackUpdateAPIView.as_view(), name='feedback-update'),
     path('feedbacks/<int:pk>/delete/', FeedbackDeleteAPIView.as_view(), name='feedback-delete'),
-
+    
     path('cartorder/create/', CartOrderCreateAPIView.as_view(), name='cartorder-create'),
+    path('cartorder/<int:pk>/', CartOrderRetrieveUpdateDestroyAPIView.as_view(), name='cartorder-detail'),
+    path('cartorder/', CartOrderListAPIView.as_view(), name='cartorder-list'),
+
 ]
