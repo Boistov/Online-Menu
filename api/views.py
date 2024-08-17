@@ -198,3 +198,10 @@ class YourProtectedView(APIView):
 
     def get(self, request):
         return Response({"message": "Authenticated!"})
+    
+
+
+
+
+class OkhirinView(APIView):
+    permission_classes = [IsAuthenticated]
