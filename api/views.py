@@ -202,6 +202,3 @@ class YourProtectedView(APIView):
 
 
 
-
-class OkhirinView(APIView):
-    permission_classes = [IsAuthenticated]
