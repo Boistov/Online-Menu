@@ -4,9 +4,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import  generics
 from .models import *
 from .serializers import *
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import HttpResponse
+from django.views import View
+
+
+
 
 class CategoryCreateAPIView(generics.CreateAPIView):
     queryset = Category.objects.all()
@@ -29,7 +34,7 @@ class CategoryListAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['id', 'name']
     search_fields = ['id', 'name']
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class CategoryDeleteAPIView(generics.DestroyAPIView):
     queryset = Category.objects.all()
@@ -57,7 +62,7 @@ class DishListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['id', 'name', 'category', 'price']
     search_fields = ['id', 'name', 'category__name']
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
     def get_queryset(self):
         queryset = Dish.objects.all()
@@ -98,7 +103,7 @@ class OrderListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['id', 'user', 'total_price']
     search_fields = ['id', 'user__username', 'total_price']
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
     def get_queryset(self):
         queryset = Order.objects.all()
@@ -130,7 +135,7 @@ class FeedbackListAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['id', 'user', 'order']
     search_fields = ['id', 'user__username', 'order__id']
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class FeedbackDetailAPIView(generics.RetrieveAPIView):
     queryset = Feedback.objects.all()
@@ -171,7 +176,7 @@ class ReviewListAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['id', 'user', 'dish']
     search_fields = ['id', 'user__username', 'dish__name']
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class ReviewDeleteAPIView(generics.DestroyAPIView):
     queryset = Review.objects.all()
@@ -201,4 +206,12 @@ class YourProtectedView(APIView):
     
 
 
+
+
+
+
+
+class SomeView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse("This is the response from SomeView.")
 

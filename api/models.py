@@ -14,6 +14,10 @@ class Dish(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='dishes/')
     video = models.FileField(upload_to='videos/')
+    kalories = models.DecimalField(max_digits=6, decimal_places=2)
+    fat = models.DecimalField(max_digits=6, decimal_places=2)
+    protein = models.DecimalField(max_digits=6, decimal_places=2)
+    carbs = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
         return self.name
